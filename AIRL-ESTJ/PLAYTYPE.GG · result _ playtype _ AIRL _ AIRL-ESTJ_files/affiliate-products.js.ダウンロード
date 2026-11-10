@@ -1,0 +1,30 @@
+/* =============================================================================
+ *  Playtype.gg  おすすめ広告  管理ファイル   ★ここだけ編集すればOK★
+ *
+ *  1商品 = { image, name, url } の3つだけ。
+ *    image : 商品画像のURL（空 "" なら仮画像を表示）
+ *    name  : 商品名（空 "" なら「おすすめゲーミングアイテム」と表示）
+ *    url   : Amazonの商品URL（アフィリエイトリンク）
+ *
+ *  ・商品を追加  → 下のリストの末尾に  { image:"", name:"", url:"" },  を足す
+ *  ・商品を削除  → その行を消す
+ *  ・並び順      → 上から順（表示はここからランダムで4件×3枠が選ばれます）
+ *  ※ カンマ「,」の付け忘れに注意。行末は , 、最後の行だけ , 不要。
+ * ============================================================================= */
+window.AFFILIATE_PRODUCTS = [
+  { image: "/assets/ads/superstike.png", name: "Logicool G PRO X2 SUPERSTRIKE", url: "https://link.amazon/A07H1j5tk" },
+  { image: "/assets/ads/Atlantis.png", name: "Lamzu Atlantis Mini Pro", url: "https://link.amazon/B0gctBJum" },
+  { image: "/assets/ads/Viper-V3-pro.png", name: "Razer Viper V3 Pro", url: "https://link.amazon/B0eEoihlD" },
+  { image: "/assets/ads/Huntsman-v3-pro.png", name: "Razer Huntsman V3 Pro Tenkeyless", url: "https://link.amazon/B00w1AUuO" },
+  { image: "/assets/ads/HyperX-quadcast2.png", name: "HyperX QuadCast2", url: "https://link.amazon/B09beFc0a" },
+  { image: "/assets/ads/SoudblasterX5.png", name: "Creative Sound Blaster X5", url: "https://link.amazon/B014152UL" },
+  { image: "/assets/ads/Artisan-type99.png", name: "ARTISAN NINJA FX 99式 MID XL 抹茶", url: "https://link.amazon/B05S36nlG" },
+  { image: "/assets/ads/G-SR-SE-ROUGE.png", name: "BenQ ZAWIE G-SR-SE ROUGE II", url: "https://link.amazon/B07Nr1xkr" },
+  { image: "/assets/ads/XL2540X.png", name: "BenQ ZOWIE XL2540X+ 280hz", url: "https://link.amazon/B0eapX6Eq" },
+  { image: "/assets/ads/V-RohtoPremium.png", name: "Vロートプレミアム", url: "https://link.amazon/B09icUu5D" },
+  { image: "/assets/ads/YOROI.png", name: "UNIVERSAL GRIP TAPE 「YOROI」", url: "https://link.amazon/B0ficn2VK" },
+  { image: "/assets/ads/namida-Rohto.png", name: "なみだロートドライエイド", url: "https://link.amazon/B0fK6IJFr" },
+  { image: "/assets/ads/EADALI.png", name: "[Eadali] アームカバー", url: "https://link.amazon/B03iko7OG" },
+  { image: "/assets/ads/IE200.png", name: "Sennheiser IE 200", url: "https://link.amazon/B0etcafhQ" },
+  { image: "/assets/ads/XG248QSG-ACE.png", name: "ROG Strix XG248QSG Ace 610hz", url: "https://link.amazon/B0hHl9DTi" }
+];

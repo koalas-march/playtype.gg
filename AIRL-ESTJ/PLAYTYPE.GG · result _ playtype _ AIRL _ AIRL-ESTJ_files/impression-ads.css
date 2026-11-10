@@ -1,0 +1,103 @@
+/* ============================================================
+   Playtype.gg インプレッション広告（手動レスポンシブ）
+   - Amazon アフィリエイト（assets/ads.js）とは無関係。混ぜない。
+   - 枠はレイアウトシフト対策で最低高さだけ予約する。固定高で切らない。
+   - 親に overflow:hidden を付けない（レスポンシブ広告のサイズ計算を妨げるため）。
+   - sticky / fixed / absolute は使わない。すべて通常フロー。
+   ============================================================ */
+.pt-impression-ad{
+  display:block;width:100%;margin:clamp(28px,5vw,48px) auto;
+  padding:10px 0 0;box-sizing:border-box;
+  background:transparent;border:0;border-radius:0;
+  /* サイト背景に馴染む低コントラストの区切り。カードや診断結果に見せない */
+  border-top:1px solid rgba(120,140,170,.16);
+  border-bottom:1px solid rgba(120,140,170,.16);
+}
+.pt-impression-ad-label{
+  display:block;font-family:var(--mono,ui-monospace,monospace);
+  font-size:10px;letter-spacing:.16em;line-height:1;
+  color:rgba(180,196,214,.62);text-align:left;
+  margin:0 0 8px;padding:0 2px;
+}
+.pt-impression-ad-slot{display:block;width:100%;margin:0 auto}
+/* 取得前の予約領域。取得できたら auto に開放する */
+.pt-impression-ad[data-pt-state="reserved"] .pt-impression-ad-slot{min-height:100px}
+@media(min-width:768px){
+  .pt-impression-ad[data-pt-state="reserved"] .pt-impression-ad-slot{min-height:90px}
+}
+/* 取得失敗（unfilled）と条件未達は枠ごと畳む。空の巨大領域を残さない */
+.pt-impression-ad[data-pt-state="unfilled"],
+.pt-impression-ad[data-pt-state="skip"]{display:none!important}
+
+/* --- HOME 横長。中央・最大970px --- */
+.pt-ad-home{max-width:970px;padding-inline:clamp(12px,3vw,24px)}
+
+/* --- 診断中。回答操作から48px離す --- */
+.pt-ad-quiz{max-width:720px;margin-top:48px}
+.pt-ad-quiz[data-pt-state="reserved"] .pt-impression-ad-slot{min-height:90px}
+
+/* --- 結果の章間広告（横長・通常フロー・中央揃え） ---
+   本文を狭めない。右サイドレールは使わない。sticky/fixed/absolute も使わない。
+   上下余白は PC 64px / モバイル 48px 以上。 */
+.pt-ad-chapter{
+  max-width:970px;width:100%;margin-left:auto;margin-right:auto;
+  margin-top:48px;margin-bottom:48px;
+  padding-inline:clamp(8px,2vw,16px);
+}
+.pt-ad-chapter .pt-impression-ad-slot{max-width:728px}
+.pt-ad-chapter .pt-impression-ad-preview{max-width:728px;margin:0 auto}
+@media(min-width:768px){
+  .pt-ad-chapter{margin-top:64px;margin-bottom:64px}
+}
+
+/* --- 左右余白広告（十分に広い PC だけ） ---
+   最優先ルール：このラッパーは中央本文の幅を一切決めない。
+   - 既定は display:block。ラッパーが無いときと完全に同じレイアウトになる。
+   - Grid になるのは JS が data-pt-gutter="on" を付けたときだけ。
+     つまり「1600px 以上」かつ「実際に左右へ出す」と判定したときに限る。
+     1600px 未満は非表示にするだけで、本文幅には触れない。
+   - Grid になったときも中央列の幅は block のときと同じ値になるようにする。
+     ・本文が親の全幅を使う面（soulmate）は .pt-gutters-bleed を付け、
+       広告2列ぶんだけ負マージンで外側へ張り出す。中央列は 1fr のまま同値。
+     ・本文の幅が中身側で決まっている面（HOME の .result-in=900px）は
+       --pt-body に同じ値を渡し、justify-content:center で中央を保つ。
+   - sticky / fixed / absolute は使わない。通常フローのまま流す。 */
+.pt-gutters{display:block}
+.pt-center{min-width:0}
+.pt-gutter{display:none}
+@media(min-width:1600px){
+  .pt-gutters[data-pt-gutter="on"]{
+    --pt-gut:160px;--pt-gap:24px;
+    display:grid;
+    grid-template-columns:var(--pt-gut) minmax(0,var(--pt-body,1fr)) var(--pt-gut);
+    column-gap:var(--pt-gap);
+    justify-content:center;
+    align-items:start;
+  }
+  /* 本文が親の全幅を使う面だけ、広告2列ぶん外側へ張り出す（中央幅を奪わない） */
+  .pt-gutters.pt-gutters-bleed[data-pt-gutter="on"]{
+    margin-left:calc(-1 * (var(--pt-gut) + var(--pt-gap)));
+    margin-right:calc(-1 * (var(--pt-gut) + var(--pt-gap)));
+  }
+  .pt-gutters[data-pt-gutter="on"] > .pt-gutter-l{grid-column:1;justify-self:end}
+  .pt-gutters[data-pt-gutter="on"] > .pt-center{grid-column:2;min-width:0}
+  .pt-gutters[data-pt-gutter="on"] > .pt-gutter-r{grid-column:3;justify-self:start}
+  .pt-gutters[data-pt-gutter="on"] .pt-gutter{display:block}
+  .pt-gutter .pt-impression-ad{
+    margin:0;width:100%;max-width:160px;min-width:120px;
+    border:0;border-top:1px solid rgba(120,140,170,.16);
+  }
+  .pt-gutter .pt-impression-ad[data-pt-state="reserved"] .pt-impression-ad-slot{min-height:600px}
+  .pt-gutter .pt-impression-ad-preview{min-height:600px;writing-mode:horizontal-tb}
+}
+
+/* --- 開発・検証環境のプレースホルダー。実広告は読み込まない --- */
+.pt-impression-ad-preview{
+  display:flex;align-items:center;justify-content:center;
+  min-height:100px;border:1px dashed rgba(140,160,190,.35);border-radius:10px;
+  background:repeating-linear-gradient(135deg,rgba(255,255,255,.02) 0 8px,transparent 8px 16px);
+  font-family:var(--mono,ui-monospace,monospace);font-size:11px;letter-spacing:.2em;
+  color:rgba(180,196,214,.6);text-align:center;padding:16px}
+
+/* 広告そのものは動かさない（拡大・点滅・スライド・ホバー演出を持たせない） */
+.pt-impression-ad,.pt-impression-ad *{animation:none!important;transition:none!important}
